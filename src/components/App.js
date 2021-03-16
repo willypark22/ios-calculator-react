@@ -91,6 +91,14 @@ const App = () => {
             return;
         }
 
+        if(content === ".") {
+            if(value.includes(".")) {
+                return;
+            }
+            setValue(value + ".");
+            return;
+        }
+
         if(content === "=") {
             if(!operator) {
                 return;
@@ -113,7 +121,12 @@ const App = () => {
             return;
         }
 
-        setValue(parseFloat(num + content).toString());
+        if(value[value.length - 1] === ".") {
+            setValue(value + content);
+        }
+        else {
+            setValue(parseFloat(num + content).toString());
+        }
     }
 
     return (
