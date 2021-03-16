@@ -1,12 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import "./App.css";
 import Button from './Button';
+import commafy from './commafy.js';
 
 const App = () => {
     const [value, setValue] = useState("0");
     const [clear, setClear] = useState("AC");
     const [memory, setMemory] = useState(null);
     const [operator, setOperator] = useState(null);
+    const [time, setTime] = useState(new Date());
+
+    useEffect(() => {
+        const id = setInterval(() => {
+            setTime(() => new Date());
+        }, 1000);
+        return () => {
+            clearInterval(id);
+        }
+    }, []);
 
     const handleOperators = () => {
         if(operator !== null) {
@@ -131,8 +142,8 @@ const App = () => {
 
     return (
         <div className="App">
-            <div className="top">4:43</div>
-            <div className="display">{value}</div>
+            <div className="top">{time.getHours().toString().padStart(2, "0")}:{time.getMinutes().toString().padStart(2, "0")}</div>
+            <div className="display">{commafy(value)}</div>
             <div className="buttons">
                 <Button onButtonClick={handleButtonPress} content={clear} type="function"/>
                 <Button onButtonClick={handleButtonPress} content="±"  type="function"/>
